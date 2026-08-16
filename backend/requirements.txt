@@ -1,4 +1,8 @@
 fastapi
 uvicorn[standard]
 python-dotenv
+numpy
+sentence-transformers
+openai
 pydantic
+snowflake-connector-python
