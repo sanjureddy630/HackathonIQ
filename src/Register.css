@@ -1,0 +1,1553 @@
+/* ============================================================
+   HACKATHON IQ — REGISTRATION
+   ============================================================ */
+
+.register-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 80% 15%,
+      rgba(190, 255, 0, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(190, 255, 0, 0.05),
+      transparent 25%
+    ),
+    #050505;
+
+  color: #f4f4f4;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+
+.register-page::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 50px 50px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 90%
+  );
+}
+
+
+.register-glow {
+  position: fixed;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  filter: blur(100px);
+
+  pointer-events: none;
+
+  opacity: 0.12;
+
+  animation: floatGlow 8s ease-in-out infinite;
+}
+
+
+.register-glow-one {
+  background: #baff00;
+
+  top: 5%;
+  right: -180px;
+}
+
+
+.register-glow-two {
+  background: #7aff00;
+
+  bottom: -200px;
+  left: -150px;
+
+  animation-delay: -4s;
+}
+
+
+@keyframes floatGlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+
+.register-shell {
+  width: min(1120px, calc(100% - 40px));
+
+  margin: 0 auto;
+
+  padding:
+    42px
+    0
+    90px;
+
+  position: relative;
+
+  z-index: 1;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.register-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 40px;
+
+  padding-bottom: 35px;
+
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.12);
+}
+
+
+.brand-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  background: #baff00;
+
+  color: #050505;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 0 30px
+    rgba(186, 255, 0, 0.18);
+}
+
+
+.brand-small {
+  font-size: 14px;
+
+  letter-spacing: 0.2em;
+
+  font-weight: 800;
+
+  color: #baff00;
+}
+
+
+.brand-subtitle {
+  margin-top: 4px;
+
+  font-size: 12px;
+
+  color: #777;
+
+  letter-spacing: 0.05em;
+}
+
+
+.event-meta {
+  display: flex;
+
+  align-items: center;
+
+  gap: 25px;
+}
+
+
+.event-meta-item {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  text-align: right;
+}
+
+
+.event-meta-item span {
+  font-size: 9px;
+
+  letter-spacing: 0.2em;
+
+  color: #666;
+
+  font-weight: 700;
+}
+
+
+.event-meta-item strong {
+  font-size: 12px;
+
+  letter-spacing: 0.06em;
+
+  font-weight: 700;
+
+  color: #eee;
+}
+
+
+.event-meta-divider {
+  width: 1px;
+
+  height: 38px;
+
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+
+.register-intro {
+  padding: 75px 0 60px;
+
+  max-width: 760px;
+}
+
+
+.eyebrow {
+  font-size: 11px;
+
+  letter-spacing: 0.2em;
+
+  color: #baff00;
+
+  font-weight: 800;
+
+  margin: 0 0 14px;
+}
+
+
+/*
+   IMPORTANT:
+   Controlled typography.
+   No oversized 80px/100px headings.
+*/
+
+.register-intro h1 {
+  margin: 0;
+
+  font-size: clamp(42px, 6vw, 68px);
+
+  line-height: 0.98;
+
+  letter-spacing: -0.045em;
+
+  font-weight: 800;
+}
+
+
+.register-intro h1 span {
+  color: #baff00;
+}
+
+
+.intro-text {
+  max-width: 580px;
+
+  margin-top: 22px;
+
+  color: #888;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.status-card {
+  display: flex;
+
+  gap: 15px;
+
+  padding: 20px;
+
+  margin-bottom: 30px;
+
+  border: 1px solid;
+
+  animation: statusIn 0.35s ease;
+}
+
+
+@keyframes statusIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.success-card {
+  border-color: rgba(186, 255, 0, 0.35);
+
+  background: rgba(186, 255, 0, 0.04);
+}
+
+
+.error-card {
+  border-color: rgba(255, 70, 70, 0.4);
+
+  background: rgba(255, 40, 40, 0.04);
+}
+
+
+.status-icon {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid currentColor;
+}
+
+
+.status-card strong {
+  display: block;
+
+  font-size: 12px;
+
+  letter-spacing: 0.1em;
+}
+
+
+.status-card p {
+  margin: 7px 0 0;
+
+  color: #888;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   FORM SECTION
+   ============================================================ */
+
+.form-section {
+  padding: 55px 0;
+
+  border-top: 1px solid
+    rgba(255, 255, 255, 0.09);
+}
+
+
+.section-heading {
+  display: flex;
+
+  gap: 18px;
+
+  margin-bottom: 32px;
+}
+
+
+.section-heading > span {
+  color: #baff00;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  padding-top: 6px;
+}
+
+
+.section-heading h2 {
+  margin: 0;
+
+  font-size: 28px;
+
+  line-height: 1.15;
+
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+}
+
+
+.section-heading p {
+  margin: 7px 0 0;
+
+  color: #666;
+
+  font-size: 13px;
+}
+
+
+/* ============================================================
+   FORM GRID
+   ============================================================ */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+
+.field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+
+.field > span {
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  color: #777;
+}
+
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #f2f2f2;
+
+  padding: 16px 17px;
+
+  border-radius: 2px;
+
+  outline: none;
+
+  font: inherit;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+
+.field textarea {
+  resize: vertical;
+
+  min-height: 150px;
+
+  line-height: 1.6;
+}
+
+
+.field select {
+  cursor: pointer;
+}
+
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #444;
+}
+
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #baff00;
+
+  background: rgba(186, 255, 0, 0.025);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(186, 255, 0, 0.05);
+}
+
+
+/* ============================================================
+   GENDER
+   ============================================================ */
+
+.choice-row {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 10px;
+}
+
+
+.choice-button {
+  min-height: 52px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #999;
+
+  cursor: pointer;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: 0.2s;
+}
+
+
+.choice-button:hover,
+.choice-button.selected {
+  border-color: #baff00;
+
+  color: #baff00;
+
+  background: rgba(186, 255, 0, 0.05);
+}
+
+
+/* ============================================================
+   T-SHIRT SIZE
+   ============================================================ */
+
+.size-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(70px, 1fr));
+
+  gap: 10px;
+}
+
+
+.size-button {
+  height: 58px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #999;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  transition: 0.2s;
+}
+
+
+.size-button:hover,
+.size-button.selected {
+  background: #baff00;
+
+  color: #050505;
+
+  border-color: #baff00;
+
+  transform: translateY(-2px);
+}
+
+
+.experience-field {
+  margin-top: 28px;
+}
+
+
+.experience-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 12px;
+}
+
+
+.experience-card {
+  text-align: left;
+
+  padding: 20px;
+
+  min-height: 110px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #eee;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.experience-card strong {
+  display: block;
+
+  font-size: 15px;
+}
+
+
+.experience-card small {
+  display: block;
+
+  margin-top: 9px;
+
+  color: #666;
+
+  font-size: 12px;
+}
+
+
+.experience-card:hover,
+.experience-card.selected {
+  border-color: #baff00;
+
+  background: rgba(186, 255, 0, 0.05);
+}
+
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+
+.skills-topline {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 16px;
+
+  font-size: 12px;
+
+  color: #666;
+}
+
+
+.clear-button {
+  background: none;
+
+  border: none;
+
+  color: #baff00;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  cursor: pointer;
+}
+
+
+.skills-grid {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+
+.skill-chip {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 10px 13px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.12);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #999;
+
+  cursor: pointer;
+
+  border-radius: 2px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+
+.skill-chip span {
+  color: #555;
+
+  font-size: 14px;
+}
+
+
+.skill-chip:hover {
+  border-color: rgba(186, 255, 0, 0.5);
+
+  color: #eee;
+}
+
+
+.skill-chip.selected {
+  border-color: #baff00;
+
+  color: #baff00;
+
+  background: rgba(186, 255, 0, 0.07);
+}
+
+
+.skill-chip.selected span {
+  color: #baff00;
+}
+
+
+/* ============================================================
+   TEAM
+   ============================================================ */
+
+.team-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 13px;
+}
+
+
+.team-card {
+  min-height: 190px;
+
+  padding: 21px;
+
+  text-align: left;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #eee;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s,
+    border-color 0.25s,
+    background 0.25s;
+}
+
+
+.team-card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(186, 255, 0, 0.55);
+}
+
+
+.team-card.selected {
+  border-color: #baff00;
+
+  background: rgba(186, 255, 0, 0.06);
+}
+
+
+.team-card-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 45px;
+
+  color: #666;
+
+  font-size: 16px;
+}
+
+
+.team-dot {
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.2);
+
+  font-size: 11px;
+
+  color: #baff00;
+}
+
+
+.team-card strong {
+  display: block;
+
+  font-size: 13px;
+
+  letter-spacing: 0.06em;
+}
+
+
+.team-card p {
+  margin: 8px 0 0;
+
+  color: #666;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+.team-name-field {
+  margin-top: 20px;
+}
+
+
+/* ============================================================
+   SUBMIT
+   ============================================================ */
+
+.submit-section {
+  display: grid;
+
+  grid-template-columns:
+    0.8fr 1.2fr;
+
+  gap: 20px;
+
+  padding-top: 45px;
+}
+
+
+.submit-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 20px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.1);
+
+  background: rgba(255, 255, 255, 0.02);
+}
+
+
+.pulse-dot {
+  width: 9px;
+  height: 9px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #baff00;
+
+  box-shadow:
+    0 0 0 6px
+    rgba(186, 255, 0, 0.08);
+
+  animation: pulse 2s infinite;
+}
+
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 5px
+      rgba(186, 255, 0, 0.08);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 10px
+      rgba(186, 255, 0, 0.02);
+  }
+}
+
+
+.submit-info strong {
+  display: block;
+
+  font-size: 10px;
+
+  letter-spacing: 0.15em;
+}
+
+
+.submit-info p {
+  margin: 7px 0 0;
+
+  color: #666;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+.submit-button {
+  min-height: 100px;
+
+  border: none;
+
+  background: #baff00;
+
+  color: #050505;
+
+  cursor: pointer;
+
+  padding: 20px 28px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+
+.submit-button span {
+  font-size: 24px;
+}
+
+
+.submit-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 45px
+    rgba(186, 255, 0, 0.12);
+}
+
+
+.submit-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 850px) {
+
+  .register-shell {
+    width: min(
+      100% - 28px,
+      700px
+    );
+
+    padding-top: 25px;
+  }
+
+
+  .register-header {
+    flex-direction: column;
+  }
+
+
+  .event-meta {
+    width: 100%;
+
+    justify-content: flex-start;
+  }
+
+
+  .event-meta-item {
+    text-align: left;
+  }
+
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .field-full {
+    grid-column: auto;
+  }
+
+
+  .experience-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .submit-section {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .register-shell {
+    width: min(
+      100% - 20px,
+      520px
+    );
+  }
+
+
+  .register-intro {
+    padding-top: 50px;
+  }
+
+
+  .register-intro h1 {
+    font-size: 42px;
+  }
+
+
+  .event-meta {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 14px;
+  }
+
+
+  .event-meta-divider {
+    display: none;
+  }
+
+
+  .size-grid {
+    grid-template-columns:
+      repeat(5, 1fr);
+  }
+
+
+  .size-button {
+    height: 50px;
+  }
+
+
+  .submit-button {
+    min-height: 80px;
+
+    font-size: 15px;
+  }
+
+}
+
+.required-star {
+  color: #baff00;
+  margin-left: 4px;
+  font-weight: 800;
+}
+
+
+/* ============================================================
+   DARK SELECT DROPDOWN
+   Fixes the native white option list without changing
+   the existing registration-page design.
+   ============================================================ */
+
+.field select {
+  color-scheme: dark;
+}
+
+.field select option {
+  background: #050505;
+  color: #f2f2f2;
+}
+
+.field select option:checked {
+  background: #baff00;
+  color: #050505;
+}
+/* ============================================================
+   SUCCESS PAGE FIX ONLY
+   Do NOT remove or change existing CSS
+   ============================================================ */
+
+.success-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(180, 255, 0, 0.08),
+      transparent 32%
+    ),
+    #050605;
+  color: #ffffff;
+}
+
+.success-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+.success-page .register-nav {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  min-height: 90px;
+  padding: 24px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.success-page .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.success-page .brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: #b6ff00;
+  color: #050505;
+  font-weight: 900;
+}
+
+.success-page .brand span span {
+  color: #b6ff00;
+}
+
+.success-page .nav-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.live-dot,
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #b6ff00;
+  box-shadow: 0 0 14px rgba(182, 255, 0, 0.8);
+}
+
+.success-wrapper {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 24px;
+}
+
+.success-card {
+  position: relative;
+  z-index: 3;
+  width: min(680px, 100%);
+  padding: 55px 60px;
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  border: 1px solid rgba(182, 255, 0, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.025),
+    0 30px 100px rgba(0, 0, 0, 0.65),
+    0 0 80px rgba(182, 255, 0, 0.07);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.success-check {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 28px;
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #b6ff00;
+  background: rgba(182, 255, 0, 0.08);
+
+  box-shadow:
+    0 0 30px rgba(182, 255, 0, 0.18),
+    inset 0 0 25px rgba(182, 255, 0, 0.05);
+
+  animation: successPulse 2.5s ease-in-out infinite;
+}
+
+.success-check span {
+  color: #b6ff00;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.success-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  margin-bottom: 20px;
+
+  color: #b6ff00;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.success-label span {
+  width: 45px;
+  height: 1px;
+  background: rgba(182, 255, 0, 0.5);
+}
+
+.success-card h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+.success-card h1 em {
+  color: #b6ff00;
+  font-style: normal;
+}
+
+.success-copy {
+  max-width: 500px;
+  margin: 25px auto 32px;
+
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.registration-ticket {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 auto 28px;
+  padding: 20px 24px;
+
+  text-align: left;
+
+  background: rgba(182, 255, 0, 0.045);
+  border: 1px dashed rgba(182, 255, 0, 0.35);
+}
+
+.registration-ticket span {
+  display: block;
+  margin-bottom: 7px;
+
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.registration-ticket strong {
+  color: #b6ff00;
+  font-size: 25px;
+  letter-spacing: 1px;
+}
+
+.ticket-code {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.success-list {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.success-list > div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 15px 5px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: left;
+}
+
+.success-list > div > span {
+  color: #b6ff00;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.success-list > div p {
+  flex: 1;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 13px;
+}
+
+.success-list > div b {
+  color: #b6ff00;
+  font-size: 15px;
+}
+
+.success-button {
+  width: 100%;
+  margin-top: 28px;
+  padding: 16px 22px;
+
+  border: 1px solid #b6ff00;
+  background: #b6ff00;
+  color: #050505;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.success-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(182, 255, 0, 0.2);
+}
+
+.success-button span {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.success-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  border: 1px solid rgba(182, 255, 0, 0.08);
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.orbit-one {
+  width: 760px;
+  height: 760px;
+}
+
+.orbit-two {
+  width: 1050px;
+  height: 1050px;
+  border-color: rgba(182, 255, 0, 0.035);
+}
+
+@keyframes successPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 30px rgba(182, 255, 0, 0.18),
+      inset 0 0 25px rgba(182, 255, 0, 0.05);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 45px rgba(182, 255, 0, 0.28),
+      inset 0 0 30px rgba(182, 255, 0, 0.08);
+  }
+}
+
+@media (max-width: 700px) {
+  .success-page .register-nav {
+    padding: 20px;
+  }
+
+  .success-page .nav-status {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .success-card {
+    padding: 40px 24px;
+  }
+
+  .success-card h1 {
+    font-size: 45px;
+    letter-spacing: -2px;
+  }
+
+  .registration-ticket {
+    padding: 16px;
+  }
+
+  .orbit-one {
+    width: 500px;
+    height: 500px;
+  }
+
+  .orbit-two {
+    width: 700px;
+    height: 700px;
+  }
+}
