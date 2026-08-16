@@ -6,3 +6,4 @@ sentence-transformers
 openai
 pydantic
 snowflake-connector-python
+email-validator
