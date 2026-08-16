@@ -699,7 +699,7 @@ const [registrationId, setRegistrationId] = useState<number | null>(null);
               className="premium-success-action"
               type="button"
               onClick={() => {
-                setSuccess(false);
+                setSuccess("");
                 setRegistrationId(null);
               }}
             >
@@ -1683,7 +1683,7 @@ const [registrationId, setRegistrationId] = useState<number | null>(null);
 
                       {match.matched_skills.length > 0 && (
                         <div className="copilot-match-skills">
-                          {match.matched_skills.map((skill) => (
+                          {match.matched_skills.map((skill: string) => (
                             <span key={skill}>{skill}</span>
                           ))}
                         </div>
