@@ -1,24 +1,14 @@
 # ============================================================
-# HACKATHON IQ — LOCAL RAG AI ENGINE
-# NO OPENAI API KEY REQUIRED
+# HACKATHON IQ — FREE LOCAL RAG ENGINE
+# No OpenAI API
+# No external AI API
+# Lightweight and Render Free compatible
 # ============================================================
 
-import numpy as np
-
-from sentence_transformers import SentenceTransformer
+import re
+from collections import Counter
 
 from knowledge_base import get_knowledge_base
-
-
-# ============================================================
-# EMBEDDING MODEL
-# ============================================================
-
-embedding_model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
-
-print("RAG EMBEDDING MODEL READY")
 
 
 # ============================================================
@@ -27,14 +17,40 @@ print("RAG EMBEDDING MODEL READY")
 
 knowledge_base = get_knowledge_base()
 
-print(
-    f"HACKATHON IQ KNOWLEDGE BASE LOADED: "
-    f"{len(knowledge_base)} documents"
-)
+print(f"HACKATHON IQ KNOWLEDGE BASE LOADED: {len(knowledge_base)} items")
 
 
 # ============================================================
-# DOCUMENT EMBEDDINGS
+# TEXT PROCESSING
+# ============================================================
+
+STOP_WORDS = {
+    "a", "an", "the", "is", "are", "am", "was", "were",
+    "be", "been", "being", "to", "of", "in", "on", "at",
+    "for", "from", "and", "or", "with", "do", "does",
+    "did", "will", "would", "can", "could", "should",
+    "what", "who", "where", "when", "why", "how",
+    "me", "my", "i", "we", "you", "they", "it", "this",
+    "that", "tell", "please", "about"
+}
+
+
+def tokenize(text: str):
+    """
+    Convert text into useful lowercase words.
+    """
+
+    words = re.findall(r"[a-zA-Z0-9₹]+", text.lower())
+
+    return [
+        word
+        for word in words
+        if word not in STOP_WORDS and len(word) > 1
+    ]
+
+
+# ============================================================
+# PREPARE DOCUMENTS
 # ============================================================
 
 documents = []
@@ -42,74 +58,109 @@ documents = []
 for item in knowledge_base:
 
     text = " ".join([
-        item["category"],
-        item["title"],
-        item["content"]
+        str(item.get("category", "")),
+        str(item.get("title", "")),
+        str(item.get("content", ""))
     ])
 
-    documents.append(text)
-
-
-document_embeddings = embedding_model.encode(
-    documents,
-    normalize_embeddings=True
-)
-
-print("HACKATHON IQ DOCUMENT EMBEDDINGS READY")
+    documents.append({
+        "id": item["id"],
+        "category": item["category"],
+        "title": item["title"],
+        "content": item["content"].strip(),
+        "tokens": set(tokenize(text))
+    })
 
 
 # ============================================================
-# RETRIEVE HACKATHON KNOWLEDGE
+# RETRIEVE CONTEXT
 # ============================================================
 
 def retrieve_context(
     query: str,
     top_k: int = 3,
-    threshold: float = 0.55
+    threshold: float = 0.20
 ):
 
     if not query or not query.strip():
         return []
 
-    query_embedding = embedding_model.encode(
-        query,
-        normalize_embeddings=True
-    )
+    query_tokens = set(tokenize(query))
 
-    scores = np.dot(
-        document_embeddings,
-        query_embedding
-    )
-
-    ranked_indexes = np.argsort(scores)[::-1]
+    if not query_tokens:
+        return []
 
     results = []
 
-    for index in ranked_indexes[:top_k]:
+    for document in documents:
 
-        score = float(scores[index])
+        document_tokens = document["tokens"]
 
-        if score < threshold:
+        if not document_tokens:
             continue
 
-        item = knowledge_base[index]
+        # ----------------------------------------------------
+        # Word overlap
+        # ----------------------------------------------------
 
-        results.append({
-            "id": item["id"],
-            "category": item["category"],
-            "title": item["title"],
-            "content": item["content"].strip(),
-            "similarity": round(score, 4)
-        })
+        overlap = query_tokens.intersection(document_tokens)
 
-    return results
+        if not overlap:
+            continue
+
+        # ----------------------------------------------------
+        # Similarity score
+        # ----------------------------------------------------
+
+        precision = len(overlap) / len(query_tokens)
+        recall = len(overlap) / len(document_tokens)
+
+        # F1-style score
+        if precision + recall == 0:
+            score = 0
+        else:
+            score = (
+                2 * precision * recall
+                / (precision + recall)
+            )
+
+        # Extra weight when important query words
+        # appear in the title.
+        title_tokens = set(tokenize(document["title"]))
+
+        title_overlap = query_tokens.intersection(title_tokens)
+
+        if title_overlap:
+            score += 0.20 * (
+                len(title_overlap) / len(query_tokens)
+            )
+
+        score = min(score, 1.0)
+
+        if score >= threshold:
+
+            results.append({
+                "id": document["id"],
+                "category": document["category"],
+                "title": document["title"],
+                "content": document["content"],
+                "similarity": round(float(score), 4)
+            })
+
+    # Highest score first
+    results.sort(
+        key=lambda item: item["similarity"],
+        reverse=True
+    )
+
+    return results[:top_k]
 
 
 # ============================================================
-# LOCAL ANSWER GENERATOR
+# LOCAL ANSWER GENERATION
 # ============================================================
 
-def generate_local_answer(
+def generate_rag_answer(
     query: str,
     retrieved_documents: list
 ):
@@ -117,144 +168,29 @@ def generate_local_answer(
     if not retrieved_documents:
 
         return (
-            "I couldn't find this information in the official "
-            "Hackathon IQ information. Please ask me about the "
-            "hackathon, registration, prizes, teams, eligibility, "
-            "schedule, venue, or other official event information."
+            "I couldn't find official information about that "
+            "in the Hackathon IQ knowledge base."
         )
 
-    # --------------------------------------------------------
-    # Best matching official document
-    # --------------------------------------------------------
+    # Best matching official answer
+    best = retrieved_documents[0]
 
-    best_document = retrieved_documents[0]
-
-    content = best_document["content"].strip()
-
-    # --------------------------------------------------------
-    # Normalize query for simple question handling
-    # --------------------------------------------------------
-
-    query_lower = query.lower().strip()
-
-    # --------------------------------------------------------
-    # Prize questions
-    # --------------------------------------------------------
-
-    prize_keywords = [
-        "prize",
-        "prizes",
-        "prize pool",
-        "first prize",
-        "second prize",
-        "third prize",
-        "winner",
-        "winning"
-    ]
-
-    if any(
-        keyword in query_lower
-        for keyword in prize_keywords
-    ):
-
-        matching_documents = []
-
-        for item in retrieved_documents:
-
-            text = (
-                item["title"] + " " +
-                item["content"]
-            ).lower()
-
-            if any(
-                keyword in text
-                for keyword in prize_keywords
-            ):
-                matching_documents.append(item)
-
-        if matching_documents:
-
-            answer_parts = []
-
-            for item in matching_documents:
-
-                answer_parts.append(
-                    item["content"].strip()
-                )
-
-            return "\n\n".join(answer_parts)
+    return best["content"]
 
 
-    # --------------------------------------------------------
-    # Registration questions
-    # --------------------------------------------------------
+# ============================================================
+# GENERAL QUESTION FALLBACK
+# ============================================================
 
-    registration_keywords = [
-        "register",
-        "registration",
-        "registration process",
-        "how to register",
-        "sign up",
-        "signup"
-    ]
+def generate_general_answer(query: str):
 
-    if any(
-        keyword in query_lower
-        for keyword in registration_keywords
-    ):
-
-        for item in retrieved_documents:
-
-            text = (
-                item["title"] + " " +
-                item["content"]
-            ).lower()
-
-            if any(
-                keyword in text
-                for keyword in registration_keywords
-            ):
-
-                return item["content"].strip()
-
-
-    # --------------------------------------------------------
-    # Team questions
-    # --------------------------------------------------------
-
-    team_keywords = [
-        "team",
-        "teammate",
-        "team member",
-        "find team",
-        "team size"
-    ]
-
-    if any(
-        keyword in query_lower
-        for keyword in team_keywords
-    ):
-
-        for item in retrieved_documents:
-
-            text = (
-                item["title"] + " " +
-                item["content"]
-            ).lower()
-
-            if any(
-                keyword in text
-                for keyword in team_keywords
-            ):
-
-                return item["content"].strip()
-
-
-    # --------------------------------------------------------
-    # General Hackathon IQ question
-    # --------------------------------------------------------
-
-    return content
+    return (
+        "I can answer questions about Hackathon IQ using "
+        "the official event information available to me. "
+        "Please ask me about prizes, food, eligibility, "
+        "registration, rules, schedule, venue, or other "
+        "Hackathon IQ details."
+    )
 
 
 # ============================================================
@@ -264,6 +200,10 @@ def generate_local_answer(
 def ask_hackathon_ai(query: str):
 
     query = query.strip()
+
+    # --------------------------------------------------------
+    # Empty question
+    # --------------------------------------------------------
 
     if not query:
 
@@ -276,25 +216,23 @@ def ask_hackathon_ai(query: str):
             "sources": []
         }
 
-
     # --------------------------------------------------------
-    # SEARCH OFFICIAL HACKATHON IQ KNOWLEDGE
+    # Search official knowledge base
     # --------------------------------------------------------
 
     retrieved = retrieve_context(
         query=query,
         top_k=3,
-        threshold=0.55
+        threshold=0.20
     )
 
-
     # --------------------------------------------------------
-    # OFFICIAL HACKATHON IQ QUESTION
+    # Official Hackathon IQ question
     # --------------------------------------------------------
 
     if retrieved:
 
-        answer = generate_local_answer(
+        answer = generate_rag_answer(
             query=query,
             retrieved_documents=retrieved
         )
@@ -303,7 +241,7 @@ def ask_hackathon_ai(query: str):
             "query": query,
             "answer": answer,
             "grounded": True,
-            "mode": "local_hackathon_rag",
+            "mode": "hackathon_rag",
             "retrieved_count": len(retrieved),
             "sources": [
                 {
@@ -315,19 +253,17 @@ def ask_hackathon_ai(query: str):
             ]
         }
 
+    # --------------------------------------------------------
+    # Unknown/general question
+    # --------------------------------------------------------
 
-    # --------------------------------------------------------
-    # QUESTION NOT FOUND
-    # --------------------------------------------------------
+    answer = generate_general_answer(query)
 
     return {
         "query": query,
-        "answer": (
-            "I couldn't find this information in the official "
-            "Hackathon IQ knowledge base."
-        ),
+        "answer": answer,
         "grounded": False,
-        "mode": "local_knowledge_only",
+        "mode": "general_ai",
         "retrieved_count": 0,
         "sources": []
     }
