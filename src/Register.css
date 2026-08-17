@@ -1550,4 +1550,47 @@
     width: 700px;
     height: 700px;
   }
+}/* =====================================================
+   GLOBAL TEXT VISIBILITY FIX
+   Makes ALL headings and important text visible
+   on the dark Hackathon IQ background
+   ===================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+[class*="heading"],
+[class*="title"] {
+  color: #ffffff !important;
+}
+
+/* Section numbers like 01, 02, 03 */
+[class*="number"],
+[class*="step"],
+.section-number {
+  color: #b6ff00 !important;
+}
+
+/* Subheadings / descriptions */
+p,
+[class*="subtitle"],
+[class*="description"],
+[class*="subheading"] {
+  color: #b8b8b8 !important;
+}
+
+/* Form labels */
+label {
+  color: #d8d8d8 !important;
+}
+
+/* Navigation / header text */
+nav,
+nav a,
+header,
+header a {
+  color: #ffffff !important;
 }
